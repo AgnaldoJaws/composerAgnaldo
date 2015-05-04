@@ -1,0 +1,107 @@
+
+ namespace Application\Controller;
+
+use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\ViewModel;
+use \DOMPDF;
+
+
+class IndexController extends AbstractActionController
+{
+    public function indexAction()
+    {
+    	
+    	$dompdf = new DOMPDF();
+ 
+				/* Carrega seu HTML */
+				$dompdf->load_html('<p>Agnaldo.</p>');
+				 
+				/* Renderiza */
+				$dompdf->render();
+				 
+				/* Exibe */
+				$dompdf->stream(
+				    "saida.pdf", /* Nome do arquivo de saída */
+				    array(
+				        "Attachment" => false /* Para download, altere para true */
+    )
+);
+    	
+    	
+    	
+    
+    	
+    	
+    	return new ViewModel();
+    	 
+        
+    }
+}
+
+
+
+
+
+"homepage": "http://framework.zend.com/",
+    "require": {
+        "php": ">=5.3.3",
+        "zendframework/zendframework": "2.3.*",
+      "doctrine/doctrine-orm-module": "dev-master"
+    },
+
+
+{
+    "name": "zendframework/skeleton-application",
+    "description": "Skeleton Application for ZF2",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "framework",
+        "zf2"
+    ],
+    "homepage": "http://framework.zend.com/",
+    "require": {
+        "php": ">=5.3.3",
+        "zendframework/zendframework": "~2.4",
+        "dino/dompdf-module": "dev-master",
+        
+        "anouar/fpdf": "dev-master"
+     }
+}
+
+
+
+$id = $this->getRequest()->getPost('cpf');
+					
+		$em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
+    	
+    	$idConsulta = $id;
+    	
+    	$query = $em->createQuery('SELECT u FROM Pc_help\Entity\Categoria u WHERE (u.id = :id)');
+    	$query->setParameter('id',array($idConsulta));
+    	$users = $query->getResult();
+    	
+		
+		return new ViewModel(array('cliente'=>$users));
+		
+
+
+
+
+
+
+
+/*public function newAction() {
+		
+		$id = $this->getRequest()->getPost('cpf');
+					
+		$em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
+    	
+    	$idConsulta = $id;
+    	
+    	$query = $em->createQuery('SELECT u FROM Pc_help\Entity\Categoria u WHERE (u.id = :id)');
+    	$query->setParameter('id',array($idConsulta));
+    	$users = $query->getResult();
+    	
+		
+		return new ViewModel(array('cliente'=>$users, 'id'=>$id));*/
+		
